@@ -121,7 +121,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       decoration: BoxDecoration(
         color: const Color(0xFF0F172A),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white.withOpacity(0.06)),
+        border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -246,10 +246,33 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                         ),
                       ],
                     ),
+                    const SizedBox(width: 12),
+                    _buildSocialActions(),
                   ],
                 );
         },
       ),
+    );
+  }
+
+  Widget _buildSocialActions() {
+    return Wrap(
+      spacing: 2,
+      children: [
+        IconButton(
+          tooltip: 'GitHub',
+          onPressed: () => _openUrl('https://github.com/slawomirgrelich'),
+          icon: const Icon(Icons.code_rounded),
+          color: const Color(0xFFE2E8F0),
+        ),
+        IconButton(
+          tooltip: 'LinkedIn',
+          onPressed: () =>
+              _openUrl('https://www.linkedin.com/in/slawomirgrelich/'),
+          icon: const Icon(Icons.business_center_rounded),
+          color: const Color(0xFF60A5FA),
+        ),
+      ],
     );
   }
 
@@ -261,7 +284,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
         gradient: const LinearGradient(
           colors: [Color(0xFF0F172A), Color(0xFF111827), Color(0xFF0B1321)],
         ),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -396,7 +419,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                   decoration: BoxDecoration(
                     color: const Color(0xFF111827),
                     borderRadius: BorderRadius.circular(26),
-                    border: Border.all(color: Colors.white.withOpacity(0.06)),
+                    border: Border.all(color: Colors.white.withOpacity(0.08)),
                   ),
                   child: Column(
                     children: [
@@ -579,7 +602,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                 decoration: BoxDecoration(
                   color: const Color(0xFF111827),
                   borderRadius: BorderRadius.circular(26),
-                  border: Border.all(color: Colors.white.withOpacity(0.06)),
+                  border: Border.all(color: Colors.white.withOpacity(0.08)),
                 ),
                 child: Column(
                   children: [
@@ -684,6 +707,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                 label: 'Lat doświadczenia',
                 value: '1+',
                 accent: const Color(0xFF8B5CF6),
+                icon: Icons.work_history_rounded,
               ),
             ),
             SizedBox(
@@ -692,6 +716,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                 label: 'Projektów',
                 value: '5+',
                 accent: const Color(0xFF22D3EE),
+                icon: Icons.folder_special_rounded,
               ),
             ),
             SizedBox(
@@ -700,6 +725,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                 label: 'Cel',
                 value: 'Freelance',
                 accent: const Color(0xFF34D399),
+                icon: Icons.rocket_launch_rounded,
               ),
             ),
           ],
@@ -714,7 +740,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       decoration: BoxDecoration(
         color: const Color(0xFF0F172A),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white.withOpacity(0.06)),
+        border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -763,7 +789,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
               decoration: BoxDecoration(
                 color: const Color(0xFF111827),
                 borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: Colors.white.withOpacity(0.05)),
+                border: Border.all(color: Colors.white.withOpacity(0.08)),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1058,7 +1084,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       decoration: BoxDecoration(
         color: const Color(0xFF0F172A),
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white.withOpacity(0.06)),
+        border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: Wrap(
         alignment: WrapAlignment.spaceBetween,
@@ -1096,7 +1122,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       decoration: BoxDecoration(
         color: const Color(0xFF0F172A),
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white.withOpacity(0.06)),
+        border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1221,22 +1247,19 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
     required String label,
     required String value,
     required Color accent,
+    required IconData icon,
   }) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: const Color(0xFF0F172A),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.06)),
+        border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(color: accent, shape: BoxShape.circle),
-          ),
+          Icon(icon, color: accent, size: 28),
           const SizedBox(height: 16),
           Text(
             value,
@@ -1266,7 +1289,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       decoration: BoxDecoration(
         color: const Color(0xFF111827),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.06)),
+        border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1387,7 +1410,7 @@ class _TechnologyCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF0F172A),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.06)),
+        border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -1465,7 +1488,7 @@ class _ProjectCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF0F172A),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.06)),
+        border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1601,7 +1624,7 @@ class _ProcessStep extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF111827),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
