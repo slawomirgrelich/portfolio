@@ -70,8 +70,8 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
-          final isDesktop = constraints.maxWidth > 800;
-          final contentWidth = isDesktop ? 600.0 : constraints.maxWidth;
+          final bool isDesktop = MediaQuery.of(context).size.width > 800;
+          final contentWidth = isDesktop ? 1100.0 : constraints.maxWidth;
 
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -125,7 +125,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final isNarrow = constraints.maxWidth < 850;
+          final isNarrow = MediaQuery.of(context).size.width <= 800;
 
           return isNarrow
               ? Column(
@@ -447,13 +447,12 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           }
 
           final profileWidth = constraints.maxWidth >= 1050 ? 420.0 : 360.0;
-          final contentWidth = constraints.maxWidth - profileWidth - 30;
 
           return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: contentWidth,
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -573,7 +572,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                   ],
                 ),
               ),
-              const SizedBox(width: 30),
+              const SizedBox(width: 40),
               Container(
                 width: profileWidth,
                 padding: const EdgeInsets.all(22),
