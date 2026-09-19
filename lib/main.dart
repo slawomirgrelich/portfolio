@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'cv_download.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -308,7 +310,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                           ),
                         ),
                         OutlinedButton.icon(
-                          onPressed: _showCvMessage,
+                          onPressed: openCv,
                           icon: const Icon(Icons.download_rounded, size: 19),
                           label: const Text(
                             'Pobierz CV',
@@ -475,7 +477,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                           ),
                         ),
                         OutlinedButton.icon(
-                          onPressed: _showCvMessage,
+                          onPressed: openCv,
                           icon: const Icon(Icons.download_rounded, size: 19),
                           label: const Text(
                             'Pobierz CV',
@@ -590,15 +592,6 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
             );
           },
         ),
-      ),
-    );
-  }
-
-  void _showCvMessage() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Plik CV zostanie dodany wkrótce.'),
-        behavior: SnackBarBehavior.floating,
       ),
     );
   }
