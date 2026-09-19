@@ -71,7 +71,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           final bool isDesktop = MediaQuery.of(context).size.width > 800;
-          final contentWidth = isDesktop ? 1100.0 : constraints.maxWidth;
+          final contentWidth = isDesktop ? 1200.0 : constraints.maxWidth;
 
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -265,7 +265,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final isNarrow = constraints.maxWidth < 850;
+          final isNarrow = MediaQuery.of(context).size.width <= 800;
 
           if (isNarrow) {
             return Column(
