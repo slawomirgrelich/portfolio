@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -90,9 +91,13 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                 const SizedBox(height: 40),
                 _buildTechnologiesSection(),
                 const SizedBox(height: 40),
+                _buildProjectsSection(),
+                const SizedBox(height: 40),
                 _buildProcessSection(),
                 const SizedBox(height: 40),
                 Container(key: _contactKey, child: _buildContactBanner()),
+                const SizedBox(height: 32),
+                _buildFooter(),
               ],
             ),
           ),
@@ -598,6 +603,13 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
     );
   }
 
+  Future<void> _openUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
   Widget _buildStatsRow() {
     return Row(
       children: [
@@ -853,6 +865,119 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           },
         ),
       ],
+    );
+  }
+
+  Widget _buildProjectsSection() {
+    const projects = [
+      _ProjectData(
+        title: 'Portfolio Sławomira',
+        description: 'Nowoczesna strona portfolio z responsywnym układem, animowanym przewijaniem i publikacją na GitHub Pages.',
+        technologies: ['Flutter', 'Dart', 'Web'],
+      ),
+      _ProjectData(
+        title: 'Landing page dla marki',
+        description: 'Przejrzysta strona startowa skupiona na mocnej prezentacji oferty, czytelnej strukturze i konwersji.',
+        technologies: ['UI/UX', 'HTML', 'CSS'],
+      ),
+      _ProjectData(
+        title: 'Aplikacja mobilna',
+        description: 'Koncepcja aplikacji mobilnej z prostą nawigacją, praktycznymi ekranami i interfejsem gotowym do dalszego rozwoju.',
+        technologies: ['Flutter', 'Dart', 'Material 3'],
+      ),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Moje Projekty',
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          'Przykładowe realizacje i kierunki, w których rozwijam swoje umiejętności.',
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(0xFFCBD5E1),
+            height: 1.6,
+          ),
+        ),
+        const SizedBox(height: 18),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final isNarrow = constraints.maxWidth < 900;
+            final cards = projects
+                .map(
+                  (project) => _ProjectCard(
+                    project: project,
+                    onGithubTap: () => _openUrl('https://github.com/slawomirgrelich/portfolio'),
+                  ),
+                )
+                .toList();
+
+            return isNarrow
+                ? Column(
+                    children: [
+                      for (var index = 0; index < cards.length; index++) ...[
+                        cards[index],
+                        if (index < cards.length - 1) const SizedBox(height: 16),
+                      ],
+                    ],
+                  )
+                : Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      for (var index = 0; index < cards.length; index++) ...[
+                        Expanded(child: cards[index]),
+                        if (index < cards.length - 1) const SizedBox(width: 16),
+                      ],
+                    ],
+                  );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFooter() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0F172A),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.white.withOpacity(0.06)),
+      ),
+      child: Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        runSpacing: 14,
+        spacing: 20,
+        children: [
+          const Text(
+            '© 2026 Sławomir Grelich. Wszystkie prawa zastrzeżone.',
+            style: TextStyle(color: Color(0xFF94A3B8), fontSize: 13),
+          ),
+          Wrap(
+            spacing: 16,
+            children: [
+              _FooterLink(
+                icon: Icons.business_center_rounded,
+                label: 'LinkedIn',
+                onTap: () => _openUrl('https://www.linkedin.com/in/slawomirgrelich/'),
+              ),
+              _FooterLink(
+                icon: Icons.code_rounded,
+                label: 'GitHub',
+                onTap: () => _openUrl('https://github.com/slawomirgrelich'),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -1177,6 +1302,125 @@ class _TechnologyCard extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _ProjectData {
+  final String title;
+  final String description;
+  final List<String> technologies;
+
+  const _ProjectData({
+    required this.title,
+    required this.description,
+    required this.technologies,
+  });
+}
+
+class _ProjectCard extends StatelessWidget {
+  final _ProjectData project;
+  final VoidCallback onGithubTap;
+
+  const _ProjectCard({
+    required this.project,
+    required this.onGithubTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0F172A),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withOpacity(0.06)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 120,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              gradient: const LinearGradient(
+                colors: [Color(0xFF1E1B4B), Color(0xFF164E63)],
+              ),
+            ),
+            child: const Icon(
+              Icons.web_asset_rounded,
+              color: Color(0xFF67E8F9),
+              size: 46,
+            ),
+          ),
+          const SizedBox(height: 18),
+          Text(
+            project.title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 21,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            project.description,
+            style: const TextStyle(
+              color: Color(0xFFCBD5E1),
+              fontSize: 14,
+              height: 1.65,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              for (final technology in project.technologies)
+                _InfoChip(label: technology),
+            ],
+          ),
+          const SizedBox(height: 18),
+          OutlinedButton.icon(
+            onPressed: onGithubTap,
+            icon: const Icon(Icons.open_in_new_rounded, size: 17),
+            label: const Text('Zobacz na GitHubie'),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Colors.white,
+              side: const BorderSide(color: Color(0xFF334155)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FooterLink extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  const _FooterLink({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+      onPressed: onTap,
+      icon: Icon(icon, size: 17),
+      label: Text(label),
+      style: TextButton.styleFrom(
+        foregroundColor: const Color(0xFFCBD5E1),
+        padding: EdgeInsets.zero,
       ),
     );
   }
