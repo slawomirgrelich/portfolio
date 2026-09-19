@@ -401,6 +401,8 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
             );
           }
 
+          final profileWidth = constraints.maxWidth >= 1050 ? 420.0 : 360.0;
+
           return Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -512,7 +514,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
               ),
               const SizedBox(width: 30),
               Container(
-                width: 420,
+                width: profileWidth,
                 padding: const EdgeInsets.all(22),
                 decoration: BoxDecoration(
                   color: const Color(0xFF111827),
