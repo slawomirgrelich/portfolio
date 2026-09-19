@@ -595,9 +595,18 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
   }
 
   Future<void> _openUrl(String url) async {
-    final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    try {
+      final uri = Uri.tryParse(url);
+      if (uri == null || uri.hasScheme == false || uri.host.isEmpty) {
+        return;
+      }
+
+      final canOpen = await canLaunchUrl(uri);
+      if (canOpen) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+    } catch (_) {
+      return;
     }
   }
 
