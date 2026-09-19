@@ -29,12 +29,8 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
             fontWeight: FontWeight.w800,
           ),
-          titleMedium: TextStyle(
-            color: Color(0xFFE2E8F0),
-          ),
-          bodyMedium: TextStyle(
-            color: Color(0xFFCBD5E1),
-          ),
+          titleMedium: TextStyle(color: Color(0xFFE2E8F0)),
+          bodyMedium: TextStyle(color: Color(0xFFCBD5E1)),
         ),
       ),
       home: const PortfolioHomePage(),
@@ -72,39 +68,50 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 30),
-        child: Center(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 1200),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildTopBar(),
-                const SizedBox(height: 30),
-                Container(key: _heroKey, child: _buildHeroSection()),
-                const SizedBox(height: 30),
-                _buildStatsRow(),
-                const SizedBox(height: 40),
-                Container(key: _aboutKey, child: _buildAboutSection()),
-                const SizedBox(height: 40),
-                Container(key: _servicesKey, child: _buildServicesSection()),
-                const SizedBox(height: 40),
-                _buildTechnologiesSection(),
-                const SizedBox(height: 40),
-                _buildProjectsSection(),
-                const SizedBox(height: 40),
-                _buildProcessSection(),
-                const SizedBox(height: 40),
-                Container(key: _contactKey, child: _buildContactBanner()),
-                const SizedBox(height: 32),
-                _buildFooter(),
-              ],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final isDesktop = constraints.maxWidth > 800;
+          final maxWidth = isDesktop ? 1000.0 : double.infinity;
+
+          return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 30),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: maxWidth),
+                child: _buildPageContent(),
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
+    );
+  }
+
+  Widget _buildPageContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTopBar(),
+        const SizedBox(height: 30),
+        Container(key: _heroKey, child: _buildHeroSection()),
+        const SizedBox(height: 30),
+        _buildStatsRow(),
+        const SizedBox(height: 40),
+        Container(key: _aboutKey, child: _buildAboutSection()),
+        const SizedBox(height: 40),
+        Container(key: _servicesKey, child: _buildServicesSection()),
+        const SizedBox(height: 40),
+        _buildTechnologiesSection(),
+        const SizedBox(height: 40),
+        _buildProjectsSection(),
+        const SizedBox(height: 40),
+        _buildProcessSection(),
+        const SizedBox(height: 40),
+        Container(key: _contactKey, child: _buildContactBanner()),
+        const SizedBox(height: 32),
+        _buildFooter(),
+      ],
     );
   }
 
@@ -118,7 +125,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          final isNarrow = constraints.maxWidth < 700;
+          final isNarrow = constraints.maxWidth < 850;
 
           return isNarrow
               ? Column(
@@ -146,7 +153,8 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        const Expanded(
+                        const SizedBox(
+                          width: 220,
                           child: Text(
                             'Sławomir Grelich',
                             style: TextStyle(
@@ -163,10 +171,22 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        _MenuChip(text: 'Start', onTap: () => _scrollTo(_heroKey)),
-                        _MenuChip(text: 'O mnie', onTap: () => _scrollTo(_aboutKey)),
-                        _MenuChip(text: 'Usługi', onTap: () => _scrollTo(_servicesKey)),
-                        _MenuChip(text: 'Kontakt', onTap: () => _scrollTo(_contactKey)),
+                        _MenuChip(
+                          text: 'Start',
+                          onTap: () => _scrollTo(_heroKey),
+                        ),
+                        _MenuChip(
+                          text: 'O mnie',
+                          onTap: () => _scrollTo(_aboutKey),
+                        ),
+                        _MenuChip(
+                          text: 'Usługi',
+                          onTap: () => _scrollTo(_servicesKey),
+                        ),
+                        _MenuChip(
+                          text: 'Kontakt',
+                          onTap: () => _scrollTo(_contactKey),
+                        ),
                       ],
                     ),
                   ],
@@ -193,7 +213,8 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                       ),
                     ),
                     const SizedBox(width: 12),
-                    const Expanded(
+                    const SizedBox(
+                      width: 220,
                       child: Text(
                         'Sławomir Grelich',
                         style: TextStyle(
@@ -207,10 +228,22 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        _MenuChip(text: 'Start', onTap: () => _scrollTo(_heroKey)),
-                        _MenuChip(text: 'O mnie', onTap: () => _scrollTo(_aboutKey)),
-                        _MenuChip(text: 'Usługi', onTap: () => _scrollTo(_servicesKey)),
-                        _MenuChip(text: 'Kontakt', onTap: () => _scrollTo(_contactKey)),
+                        _MenuChip(
+                          text: 'Start',
+                          onTap: () => _scrollTo(_heroKey),
+                        ),
+                        _MenuChip(
+                          text: 'O mnie',
+                          onTap: () => _scrollTo(_aboutKey),
+                        ),
+                        _MenuChip(
+                          text: 'Usługi',
+                          onTap: () => _scrollTo(_servicesKey),
+                        ),
+                        _MenuChip(
+                          text: 'Kontakt',
+                          onTap: () => _scrollTo(_contactKey),
+                        ),
                       ],
                     ),
                   ],
@@ -242,11 +275,16 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF8B5CF6).withOpacity(0.12),
                         borderRadius: BorderRadius.circular(999),
-                        border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.25)),
+                        border: Border.all(
+                          color: const Color(0xFF8B5CF6).withOpacity(0.25),
+                        ),
                       ),
                       child: const Text(
                         'Flutter Developer • Web Developer',
@@ -297,7 +335,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF8B5CF6),
                             foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 18,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
@@ -317,7 +358,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.white,
                             side: const BorderSide(color: Color(0xFF8B5CF6)),
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 18,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
@@ -328,7 +372,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.white,
                             side: const BorderSide(color: Color(0xFF334155)),
-                            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 22,
+                              vertical: 18,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
@@ -366,7 +413,8 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: const Color(0xFF8B5CF6).withOpacity(0.25),
+                                  color: const Color(0xFF8B5CF6)
+                                      .withOpacity(0.25),
                                   blurRadius: 30,
                                   spreadRadius: 5,
                                 ),
@@ -389,10 +437,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                       const Text(
                         'Zaczynam od małych projektów, a z czasem rozwijam swoje portfolio i buduję profesjonalne realizacje.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFFCBD5E1),
-                          height: 1.7,
-                        ),
+                        style: TextStyle(color: Color(0xFFCBD5E1), height: 1.7),
                       ),
                     ],
                   ),
@@ -402,20 +447,27 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           }
 
           final profileWidth = constraints.maxWidth >= 1050 ? 420.0 : 360.0;
+          final contentWidth = constraints.maxWidth - profileWidth - 30;
 
           return Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(
+              SizedBox(
+                width: contentWidth,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF8B5CF6).withOpacity(0.12),
                         borderRadius: BorderRadius.circular(999),
-                        border: Border.all(color: const Color(0xFF8B5CF6).withOpacity(0.25)),
+                        border: Border.all(
+                          color: const Color(0xFF8B5CF6).withOpacity(0.25),
+                        ),
                       ),
                       child: const Text(
                         'Flutter Developer • Web Developer',
@@ -466,7 +518,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF8B5CF6),
                             foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 18,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
@@ -486,7 +541,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.white,
                             side: const BorderSide(color: Color(0xFF8B5CF6)),
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 18,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
@@ -497,7 +555,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.white,
                             side: const BorderSide(color: Color(0xFF334155)),
-                            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 22,
+                              vertical: 18,
+                            ),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
@@ -536,7 +597,8 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFF8B5CF6).withOpacity(0.25),
+                                color: const Color(0xFF8B5CF6)
+                                    .withOpacity(0.25),
                                 blurRadius: 30,
                                 spreadRadius: 5,
                               ),
@@ -559,10 +621,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                     const Text(
                       'Zaczynam od małych projektów, a z czasem rozwijam swoje portfolio i buduję profesjonalne realizacje.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFFCBD5E1),
-                        height: 1.7,
-                      ),
+                      style: TextStyle(color: Color(0xFFCBD5E1), height: 1.7),
                     ),
                   ],
                 ),
@@ -613,20 +672,40 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
   }
 
   Widget _buildStatsRow() {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildStatCard(label: 'Lat doświadczenia', value: '1+', accent: const Color(0xFF8B5CF6)),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: _buildStatCard(label: 'Projektów', value: '5+', accent: const Color(0xFF22D3EE)),
-        ),
-        const SizedBox(width: 16),
-        Expanded(
-          child: _buildStatCard(label: 'Cel', value: 'Freelance', accent: const Color(0xFF34D399)),
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final cardWidth = (constraints.maxWidth - 32) / 3;
+        return Wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: [
+            SizedBox(
+              width: cardWidth,
+              child: _buildStatCard(
+                label: 'Lat doświadczenia',
+                value: '1+',
+                accent: const Color(0xFF8B5CF6),
+              ),
+            ),
+            SizedBox(
+              width: cardWidth,
+              child: _buildStatCard(
+                label: 'Projektów',
+                value: '5+',
+                accent: const Color(0xFF22D3EE),
+              ),
+            ),
+            SizedBox(
+              width: cardWidth,
+              child: _buildStatCard(
+                label: 'Cel',
+                value: 'Freelance',
+                accent: const Color(0xFF34D399),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -638,10 +717,14 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
         borderRadius: BorderRadius.circular(24),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final isNarrow = constraints.maxWidth < 800;
+          final textWidth = isNarrow
+              ? constraints.maxWidth
+              : constraints.maxWidth - 304;
+          final textColumn = SizedBox(
+            width: textWidth,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
@@ -673,9 +756,8 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                 ),
               ],
             ),
-          ),
-          const SizedBox(width: 24),
-          SizedBox(
+          );
+          final valuesCard = SizedBox(
             width: 280,
             child: Container(
               padding: const EdgeInsets.all(18),
@@ -696,15 +778,38 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                     ),
                   ),
                   SizedBox(height: 18),
-                  _ValueRow(icon: Icons.auto_awesome, label: 'Nowoczesny design'),
+                  _ValueRow(
+                    icon: Icons.auto_awesome,
+                    label: 'Nowoczesny design',
+                  ),
                   _ValueRow(icon: Icons.speed, label: 'Wydajność i ergonomia'),
-                  _ValueRow(icon: Icons.psychology_alt_rounded, label: 'Ciągły rozwój'),
-                  _ValueRow(icon: Icons.lightbulb_rounded, label: 'Pomysłowość i zaangażowanie'),
+                  _ValueRow(
+                    icon: Icons.psychology_alt_rounded,
+                    label: 'Ciągły rozwój',
+                  ),
+                  _ValueRow(
+                    icon: Icons.lightbulb_rounded,
+                    label: 'Pomysłowość i zaangażowanie',
+                  ),
                 ],
               ),
             ),
-          ),
-        ],
+          );
+
+          return isNarrow
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    textColumn,
+                    const SizedBox(height: 24),
+                    valuesCard,
+                  ],
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [textColumn, const SizedBox(width: 24), valuesCard],
+                );
+        },
       ),
     );
   }
@@ -750,25 +855,29 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
               );
             }
 
-            return Row(
+            final cardWidth = (constraints.maxWidth - 32) / 3;
+            return Wrap(
+              spacing: 16,
+              runSpacing: 16,
               children: [
-                Expanded(
+                SizedBox(
+                  width: cardWidth,
                   child: _buildServiceCard(
                     title: 'Aplikacje mobilne',
                     text: 'Tworzenie responsywnych i nowoczesnych aplikacji mobilnych w technologii Flutter z naciskiem na wygodę użytkownika.',
                     icon: Icons.phone_iphone_rounded,
                   ),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
+                SizedBox(
+                  width: cardWidth,
                   child: _buildServiceCard(
                     title: 'Strony internetowe',
                     text: 'Projektowanie i wdrażanie estetycznych stron internetowych, które dobrze działają na komputerze, tablecie i telefonie.',
                     icon: Icons.language_rounded,
                   ),
                 ),
-                const SizedBox(width: 16),
-                Expanded(
+                SizedBox(
+                  width: cardWidth,
                   child: _buildServiceCard(
                     title: 'UI/UX i prototypy',
                     text: 'Budowanie przejrzystych interfejsów oraz prostych prototypów, które wspierają komfort użytkowania i dobry wizerunek marki.',
@@ -837,11 +946,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
         const SizedBox(height: 8),
         const Text(
           'Narzędzia, których używam do tworzenia funkcjonalnych i dopracowanych realizacji.',
-          style: TextStyle(
-            fontSize: 16,
-            color: Color(0xFFCBD5E1),
-            height: 1.6,
-          ),
+          style: TextStyle(fontSize: 16, color: Color(0xFFCBD5E1), height: 1.6),
         ),
         const SizedBox(height: 18),
         LayoutBuilder(
@@ -849,9 +954,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
             final columns = constraints.maxWidth >= 900
                 ? 3
                 : constraints.maxWidth >= 580
-                    ? 2
-                    : 1;
-            final itemWidth = (constraints.maxWidth - (columns - 1) * 16) / columns;
+                ? 2
+                : 1;
+            final itemWidth =
+                (constraints.maxWidth - (columns - 1) * 16) / columns;
 
             return Wrap(
               spacing: 16,
@@ -903,11 +1009,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
         const SizedBox(height: 8),
         const Text(
           'Przykładowe realizacje i kierunki, w których rozwijam swoje umiejętności.',
-          style: TextStyle(
-            fontSize: 16,
-            color: Color(0xFFCBD5E1),
-            height: 1.6,
-          ),
+          style: TextStyle(fontSize: 16, color: Color(0xFFCBD5E1), height: 1.6),
         ),
         const SizedBox(height: 18),
         LayoutBuilder(
@@ -917,7 +1019,9 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                 .map(
                   (project) => _ProjectCard(
                     project: project,
-                    onGithubTap: () => _openUrl('https://github.com/slawomirgrelich/portfolio'),
+                    onGithubTap: () => _openUrl(
+                      'https://github.com/slawomirgrelich/portfolio',
+                    ),
                   ),
                 )
                 .toList();
@@ -927,17 +1031,20 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                     children: [
                       for (var index = 0; index < cards.length; index++) ...[
                         cards[index],
-                        if (index < cards.length - 1) const SizedBox(height: 16),
+                        if (index < cards.length - 1)
+                          const SizedBox(height: 16),
                       ],
                     ],
                   )
-                : Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                : Wrap(
+                    spacing: 16,
+                    runSpacing: 16,
                     children: [
-                      for (var index = 0; index < cards.length; index++) ...[
-                        Expanded(child: cards[index]),
-                        if (index < cards.length - 1) const SizedBox(width: 16),
-                      ],
+                      for (final card in cards)
+                        SizedBox(
+                          width: (constraints.maxWidth - 32) / 3,
+                          child: card,
+                        ),
                     ],
                   );
           },
@@ -969,7 +1076,8 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
               _FooterLink(
                 icon: Icons.business_center_rounded,
                 label: 'LinkedIn',
-                onTap: () => _openUrl('https://www.linkedin.com/in/slawomirgrelich/'),
+                onTap: () =>
+                    _openUrl('https://www.linkedin.com/in/slawomirgrelich/'),
               ),
               _FooterLink(
                 icon: Icons.code_rounded,
@@ -1003,14 +1111,40 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
             ),
           ),
           const SizedBox(height: 20),
-          Row(
-            children: const [
-              Expanded(child: _ProcessStep(number: '01', title: 'Analiza', subtitle: 'Rozumiem cel i potrzeby projektu.')),
-              SizedBox(width: 16),
-              Expanded(child: _ProcessStep(number: '02', title: 'Projekt', subtitle: 'Tworzę strukturę i wygląd interfejsu.')),
-              SizedBox(width: 16),
-              Expanded(child: _ProcessStep(number: '03', title: 'Realizacja', subtitle: 'Buduję działający efekt końcowy.')),
-            ],
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final stepWidth = (constraints.maxWidth - 32) / 3;
+              return Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                children: [
+                  SizedBox(
+                    width: stepWidth,
+                    child: const _ProcessStep(
+                      number: '01',
+                      title: 'Analiza',
+                      subtitle: 'Rozumiem cel i potrzeby projektu.',
+                    ),
+                  ),
+                  SizedBox(
+                    width: stepWidth,
+                    child: const _ProcessStep(
+                      number: '02',
+                      title: 'Projekt',
+                      subtitle: 'Tworzę strukturę i wygląd interfejsu.',
+                    ),
+                  ),
+                  SizedBox(
+                    width: stepWidth,
+                    child: const _ProcessStep(
+                      number: '03',
+                      title: 'Realizacja',
+                      subtitle: 'Buduję działający efekt końcowy.',
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -1045,10 +1179,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
               SizedBox(height: 8),
               Text(
                 'Zacznijmy od pierwszego projektu i zbudujmy coś naprawdę dobrego.',
-                style: TextStyle(
-                  color: Color(0xFFE9D5FF),
-                  fontSize: 16,
-                ),
+                style: TextStyle(color: Color(0xFFE9D5FF), fontSize: 16),
               ),
             ],
           );
@@ -1077,12 +1208,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
             );
           }
 
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(child: textColumn),
-              actionButton,
-            ],
+          return Wrap(
+            spacing: 18,
+            runSpacing: 18,
+            children: [textColumn, actionButton],
           );
         },
       ),
@@ -1107,10 +1236,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           Container(
             width: 12,
             height: 12,
-            decoration: BoxDecoration(
-              color: accent,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: accent, shape: BoxShape.circle),
           ),
           const SizedBox(height: 16),
           Text(
@@ -1124,10 +1250,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           const SizedBox(height: 6),
           Text(
             label,
-            style: const TextStyle(
-              color: Color(0xFFCBD5E1),
-              fontSize: 14,
-            ),
+            style: const TextStyle(color: Color(0xFFCBD5E1), fontSize: 14),
           ),
         ],
       ),
@@ -1267,43 +1390,52 @@ class _TechnologyCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         border: Border.all(color: Colors.white.withOpacity(0.06)),
       ),
-      child: Row(
-        children: [
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: data.color.withOpacity(0.14),
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(data.icon, color: data.color, size: 27),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  data.name,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.w700,
-                  ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final textWidth = (constraints.maxWidth - 64).clamp(
+            0.0,
+            double.infinity,
+          );
+          return Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: data.color.withOpacity(0.14),
+                  borderRadius: BorderRadius.circular(14),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  data.subtitle,
-                  style: const TextStyle(
-                    color: Color(0xFF94A3B8),
-                    fontSize: 13,
-                    height: 1.35,
-                  ),
+                child: Icon(data.icon, color: data.color, size: 27),
+              ),
+              const SizedBox(width: 14),
+              SizedBox(
+                width: textWidth,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      data.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      data.subtitle,
+                      style: const TextStyle(
+                        color: Color(0xFF94A3B8),
+                        fontSize: 13,
+                        height: 1.35,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -1325,10 +1457,7 @@ class _ProjectCard extends StatelessWidget {
   final _ProjectData project;
   final VoidCallback onGithubTap;
 
-  const _ProjectCard({
-    required this.project,
-    required this.onGithubTap,
-  });
+  const _ProjectCard({required this.project, required this.onGithubTap});
 
   @override
   Widget build(BuildContext context) {
@@ -1442,13 +1571,11 @@ class _ValueRow extends StatelessWidget {
         children: [
           Icon(icon, color: const Color(0xFF22D3EE), size: 20),
           const SizedBox(width: 10),
-          Expanded(
+          SizedBox(
+            width: 200,
             child: Text(
               label,
-              style: const TextStyle(
-                color: Color(0xFFE2E8F0),
-                fontSize: 15,
-              ),
+              style: const TextStyle(color: Color(0xFFE2E8F0), fontSize: 15),
             ),
           ),
         ],
@@ -1500,10 +1627,7 @@ class _ProcessStep extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             subtitle,
-            style: const TextStyle(
-              color: Color(0xFFCBD5E1),
-              height: 1.6,
-            ),
+            style: const TextStyle(color: Color(0xFFCBD5E1), height: 1.6),
           ),
         ],
       ),
