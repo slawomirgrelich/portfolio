@@ -124,9 +124,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
+                    Row(
                       children: [
                         Container(
                           width: 42,
