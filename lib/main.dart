@@ -183,6 +183,17 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
   }
 
   Widget _buildTopBar() {
+    final menu = Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        _MenuChip(text: 'Start', onTap: () => _scrollTo(_heroKey)),
+        _MenuChip(text: 'O mnie', onTap: () => _scrollTo(_aboutKey)),
+        _MenuChip(text: 'Usługi', onTap: () => _scrollTo(_servicesKey)),
+        _MenuChip(text: 'Kontakt', onTap: () => _scrollTo(_contactKey)),
+      ],
+    );
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
       decoration: BoxDecoration(
@@ -190,135 +201,61 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final isNarrow = MediaQuery.of(context).size.width <= 800;
-
-          return isNarrow
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      child: MediaQuery.of(context).size.width <= 800
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [_buildBrandRow(), const SizedBox(height: 12), menu],
+            )
+          : Row(
+              children: [
+                _buildBrandRow(),
+                const Spacer(),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 42,
-                          height: 42,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFF8B5CF6), Color(0xFF22D3EE)],
-                            ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              'SG',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        const SizedBox(
-                          width: 220,
-                          child: Text(
-                            'Sławomir Grelich',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        _MenuChip(
-                          text: 'Start',
-                          onTap: () => _scrollTo(_heroKey),
-                        ),
-                        _MenuChip(
-                          text: 'O mnie',
-                          onTap: () => _scrollTo(_aboutKey),
-                        ),
-                        _MenuChip(
-                          text: 'Usługi',
-                          onTap: () => _scrollTo(_servicesKey),
-                        ),
-                        _MenuChip(
-                          text: 'Kontakt',
-                          onTap: () => _scrollTo(_contactKey),
-                        ),
-                      ],
-                    ),
-                  ],
-                )
-              : Row(
-                  children: [
-                    Container(
-                      width: 42,
-                      height: 42,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFF8B5CF6), Color(0xFF22D3EE)],
-                        ),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'SG',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    const SizedBox(
-                      width: 220,
-                      child: Text(
-                        'Sławomir Grelich',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        _MenuChip(
-                          text: 'Start',
-                          onTap: () => _scrollTo(_heroKey),
-                        ),
-                        _MenuChip(
-                          text: 'O mnie',
-                          onTap: () => _scrollTo(_aboutKey),
-                        ),
-                        _MenuChip(
-                          text: 'Usługi',
-                          onTap: () => _scrollTo(_servicesKey),
-                        ),
-                        _MenuChip(
-                          text: 'Kontakt',
-                          onTap: () => _scrollTo(_contactKey),
-                        ),
-                      ],
-                    ),
+                    menu,
                     const SizedBox(width: 12),
                     _buildSocialActions(),
                   ],
-                );
-        },
-      ),
+                ),
+              ],
+            ),
+    );
+  }
+
+  Widget _buildBrandRow() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 42,
+          height: 42,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            gradient: const LinearGradient(
+              colors: [Color(0xFF8B5CF6), Color(0xFF22D3EE)],
+            ),
+          ),
+          child: const Center(
+            child: Text(
+              'SG',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        const Text(
+          'Sławomir Grelich',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+          ),
+        ),
+      ],
     );
   }
 
@@ -1274,6 +1211,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
             const SizedBox(height: 24),
             TextFormField(
               controller: _nameController,
+              style: const TextStyle(color: Colors.white),
               textInputAction: TextInputAction.next,
               decoration: _contactInputDecoration('Imię'),
               validator: (value) =>
@@ -1282,6 +1220,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
             const SizedBox(height: 14),
             TextFormField(
               controller: _emailController,
+              style: const TextStyle(color: Colors.white),
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               decoration: _contactInputDecoration('Email'),
@@ -1296,6 +1235,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
             const SizedBox(height: 14),
             TextFormField(
               controller: _messageController,
+              style: const TextStyle(color: Colors.white),
               maxLines: 4,
               decoration: _contactInputDecoration('Wiadomość'),
               validator: (value) => value == null || value.trim().isEmpty
@@ -1332,11 +1272,21 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
     return InputDecoration(
       labelText: label,
       filled: true,
-      fillColor: Colors.white.withOpacity(0.94),
-      labelStyle: const TextStyle(color: Color(0xFF475569)),
+      fillColor: const Color(0xFF1E293B),
+      labelStyle: const TextStyle(color: Color(0xFFE2E8F0)),
+      floatingLabelStyle: const TextStyle(color: Colors.white),
+      hintStyle: const TextStyle(color: Color(0xFFCBD5E1)),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide.none,
+        borderSide: const BorderSide(color: Color(0xFF475569)),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: Color(0xFF334155)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: const BorderSide(color: Color(0xFF22D3EE), width: 1.5),
       ),
     );
   }
