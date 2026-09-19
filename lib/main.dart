@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'cv_download.dart';
@@ -50,19 +51,84 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
   final _aboutKey = GlobalKey();
   final _servicesKey = GlobalKey();
   final _contactKey = GlobalKey();
+  final _scrollController = ScrollController();
+  final _contactFormKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _messageController = TextEditingController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
 
   void _scrollTo(GlobalKey key) {
     final targetContext = key.currentContext;
-    if (targetContext == null) {
+    if (targetContext == null || _scrollController.hasClients == false) {
       return;
     }
 
-    Scrollable.ensureVisible(
-      targetContext,
+    final renderObject = targetContext.findRenderObject();
+    if (renderObject == null) {
+      return;
+    }
+
+    final viewport = RenderAbstractViewport.of(renderObject);
+    if (viewport == null) {
+      return;
+    }
+
+    final targetOffset = viewport
+        .getOffsetToReveal(renderObject, 0.05)
+        .offset
+        .clamp(0.0, _scrollController.position.maxScrollExtent);
+
+    _scrollController.animateTo(
+      targetOffset,
       duration: const Duration(milliseconds: 650),
       curve: Curves.easeInOutCubic,
-      alignment: 0.08,
     );
+  }
+
+  Future<void> _submitContactForm() async {
+    if (_contactFormKey.currentState?.validate() != true) {
+      return;
+    }
+
+    final uri = Uri(
+      scheme: 'mailto',
+      path: 'slawomirgrelich@gmail.com',
+      queryParameters: {
+        'subject': 'Wiadomość z portfolio',
+        'body':
+            'Imię: ${_nameController.text}\nEmail: ${_emailController.text}\n\n${_messageController.text}',
+      },
+    );
+
+    try {
+      final canOpen = await canLaunchUrl(uri);
+      if (canOpen) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Nie można otworzyć aplikacji pocztowej.'),
+          ),
+        );
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Wystąpił problem z przygotowaniem wiadomości.'),
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -74,6 +140,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           final contentWidth = isDesktop ? 1200.0 : constraints.maxWidth;
 
           return SingleChildScrollView(
+            controller: _scrollController,
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 30),
             child: Center(
@@ -354,7 +421,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                       runSpacing: 12,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => _scrollTo(_contactKey),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF8B5CF6),
                             foregroundColor: Colors.white,
@@ -391,7 +458,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                           ),
                         ),
                         OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () => _scrollTo(_contactKey),
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.white,
                             side: const BorderSide(color: Color(0xFF334155)),
@@ -536,7 +603,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                       runSpacing: 12,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => _scrollTo(_contactKey),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF8B5CF6),
                             foregroundColor: Colors.white,
@@ -1186,59 +1253,90 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           colors: [Color(0xFF8B5CF6), Color(0xFF22D3EE)],
         ),
       ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final isNarrow = constraints.maxWidth < 700;
-
-          final textColumn = Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text(
-                'Chcesz współpracować?',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.w800,
+      child: Form(
+        key: _contactFormKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Chcesz współpracować?',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 28,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Zacznijmy od pierwszego projektu i zbudujmy coś naprawdę dobrego.',
+              style: TextStyle(color: Color(0xFFE9D5FF), fontSize: 16),
+            ),
+            const SizedBox(height: 24),
+            TextFormField(
+              controller: _nameController,
+              textInputAction: TextInputAction.next,
+              decoration: _contactInputDecoration('Imię'),
+              validator: (value) =>
+                  value == null || value.trim().isEmpty ? 'Podaj imię' : null,
+            ),
+            const SizedBox(height: 14),
+            TextFormField(
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              decoration: _contactInputDecoration('Email'),
+              validator: (value) {
+                final email = value?.trim() ?? '';
+                if (email.isEmpty || email.contains('@') == false) {
+                  return 'Podaj poprawny email';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 14),
+            TextFormField(
+              controller: _messageController,
+              maxLines: 4,
+              decoration: _contactInputDecoration('Wiadomość'),
+              validator: (value) => value == null || value.trim().isEmpty
+                  ? 'Napisz wiadomość'
+                  : null,
+            ),
+            const SizedBox(height: 18),
+            ElevatedButton.icon(
+              onPressed: _submitContactForm,
+              icon: const Icon(Icons.send_rounded, size: 18),
+              label: const Text(
+                'Wyślij wiadomość',
+                style: TextStyle(fontWeight: FontWeight.w800),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: const Color(0xFF1F2937),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 22,
+                  vertical: 17,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
                 ),
               ),
-              SizedBox(height: 8),
-              Text(
-                'Zacznijmy od pierwszego projektu i zbudujmy coś naprawdę dobrego.',
-                style: TextStyle(color: Color(0xFFE9D5FF), fontSize: 16),
-              ),
-            ],
-          );
-
-          final actionButton = ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: const Color(0xFF1F2937),
-              padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 18),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
             ),
-            child: const Text(
-              'Kontakt',
-              style: TextStyle(fontWeight: FontWeight.w800),
-            ),
-          );
+          ],
+        ),
+      ),
+    );
+  }
 
-          if (isNarrow) {
-            return Wrap(
-              spacing: 18,
-              runSpacing: 18,
-              children: [textColumn, actionButton],
-            );
-          }
-
-          return Wrap(
-            spacing: 18,
-            runSpacing: 18,
-            children: [textColumn, actionButton],
-          );
-        },
+  InputDecoration _contactInputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      filled: true,
+      fillColor: Colors.white.withOpacity(0.94),
+      labelStyle: const TextStyle(color: Color(0xFF475569)),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(14),
+        borderSide: BorderSide.none,
       ),
     );
   }
