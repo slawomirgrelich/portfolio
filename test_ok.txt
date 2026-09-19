@@ -1,0 +1,41 @@
+00:00 +0: loading C:/Projekty/moja_pierwsza_apka/test/widget_test.dart
+00:00 +0: portfolio renders the main sections
+ÔĽÉÔĽÉÔĽí EXCEPTION CAUGHT BY RENDERING LIBRARY ÔĽ×ÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉ
+The following assertion was thrown during layout:
+A RenderFlex overflowed by 499 pixels on the right.
+
+The relevant error-causing widget was:
+  Row Row:file:///C:/Projekty/moja_pierwsza_apka/lib/main.dart:783:17
+
+The overflowing RenderFlex has an orientation of Axis.horizontal.
+The edge of the RenderFlex that is overflowing has been marked in the rendering with a yellow and
+black striped pattern. This is usually caused by the contents being too big for the RenderFlex.
+Consider applying a flex factor (e.g. using an Expanded widget) to force the children of the
+RenderFlex to fit within the available space instead of being sized to their natural size.
+This is considered an error condition because it indicates that there is content that cannot be
+seen. If the content is legitimately bigger than the available space, consider clipping it with a
+ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex,
+like a ListView.
+The specific RenderFlex in question is: RenderFlex#6eec3 relayoutBoundary=up18 OVERFLOWING:
+  creator: Row ÔćÉ LayoutBuilder ÔćÉ Padding ÔćÉ DecoratedBox ÔćÉ ConstrainedBox ÔćÉ Container ÔćÉ Column ÔćÉ
+    ConstrainedBox ÔćÉ Container ÔćÉ Center ÔćÉ Padding ÔćÉ _SingleChildViewport ÔćÉ Ôő»
+  parentData: offset=Offset(0.0, 0.0) (can use size)
+  constraints: BoxConstraints(w=708.0, 0.0<=h<=Infinity)
+  size: Size(708.0, 71.0)
+  direction: horizontal
+  mainAxisAlignment: spaceBetween
+  mainAxisSize: max
+  crossAxisAlignment: center
+  textDirection: ltr
+  verticalDirection: down
+  spacing: 0.0
+ÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄÔŚóÔŚĄ
+ÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉÔĽÉ
+00:00 +0 -1: portfolio renders the main sections [E]
+  Test failed. See exception logs above.
+  The test description was: portfolio renders the main sections
+  
+00:01 +0 -1: Some tests failed.
+
+Failing tests:
+  C:/Projekty/moja_pierwsza_apka/test/widget_test.dart: portfolio renders the main sections
