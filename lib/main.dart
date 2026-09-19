@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import 'cv_download.dart';
@@ -56,6 +57,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _messageController = TextEditingController();
+  bool _isSubmitting = false;
 
   @override
   void dispose() {
@@ -95,28 +97,40 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
   }
 
   Future<void> _submitContactForm() async {
-    if (_contactFormKey.currentState?.validate() != true) {
+    if (_isSubmitting || _contactFormKey.currentState?.validate() != true) {
       return;
     }
 
-    final uri = Uri(
-      scheme: 'mailto',
-      path: 'slawomirgrelich@gmail.com',
-      queryParameters: {
-        'subject': 'Wiadomość z portfolio',
-        'body':
-            'Imię: ${_nameController.text}\nEmail: ${_emailController.text}\n\n${_messageController.text}',
-      },
-    );
+    setState(() => _isSubmitting = true);
 
     try {
-      final canOpen = await canLaunchUrl(uri);
-      if (canOpen) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else if (mounted) {
+      final response = await http.post(
+        Uri.parse('https://formspree.io/f/mvkgzzda'),
+        headers: const {'Accept': 'application/json'},
+        body: {
+          'name': _nameController.text.trim(),
+          'email': _emailController.text.trim(),
+          'message': _messageController.text.trim(),
+        },
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        _nameController.clear();
+        _emailController.clear();
+        _messageController.clear();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Nie można otworzyć aplikacji pocztowej.'),
+          const SnackBar(content: Text('Wiadomość została wysłana!')),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Nie udało się wysłać wiadomości (${response.statusCode}).',
+            ),
           ),
         );
       }
@@ -124,9 +138,13 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Wystąpił problem z przygotowaniem wiadomości.'),
+            content: Text('Nie udało się wysłać wiadomości. Spróbuj ponownie.'),
           ),
         );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isSubmitting = false);
       }
     }
   }
@@ -1244,11 +1262,16 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
             ),
             const SizedBox(height: 18),
             ElevatedButton.icon(
-              onPressed: _submitContactForm,
-              icon: const Icon(Icons.send_rounded, size: 18),
-              label: const Text(
-                'Wyślij wiadomość',
-                style: TextStyle(fontWeight: FontWeight.w800),
+              onPressed: _isSubmitting ? null : _submitContactForm,
+              icon: Icon(
+                _isSubmitting
+                    ? Icons.hourglass_top_rounded
+                    : Icons.send_rounded,
+                size: 18,
+              ),
+              label: Text(
+                _isSubmitting ? 'Wysyłanie...' : 'Wyślij wiadomość',
+                style: const TextStyle(fontWeight: FontWeight.w800),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
