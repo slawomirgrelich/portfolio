@@ -88,6 +88,8 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                 const SizedBox(height: 40),
                 Container(key: _servicesKey, child: _buildServicesSection()),
                 const SizedBox(height: 40),
+                _buildTechnologiesSection(),
+                const SizedBox(height: 40),
                 _buildProcessSection(),
                 const SizedBox(height: 40),
                 Container(key: _contactKey, child: _buildContactBanner()),
@@ -115,7 +117,9 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
                       children: [
                         Container(
                           width: 42,
@@ -279,7 +283,9 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                       ],
                     ),
                     const SizedBox(height: 28),
-                    Row(
+                    Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
                       children: [
                         ElevatedButton(
                           onPressed: () {},
@@ -296,7 +302,22 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                             style: TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        OutlinedButton.icon(
+                          onPressed: _showCvMessage,
+                          icon: const Icon(Icons.download_rounded, size: 19),
+                          label: const Text(
+                            'Pobierz CV',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            side: const BorderSide(color: Color(0xFF8B5CF6)),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                        ),
                         OutlinedButton(
                           onPressed: () {},
                           style: OutlinedButton.styleFrom(
@@ -429,7 +450,9 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                       ],
                     ),
                     const SizedBox(height: 28),
-                    Row(
+                    Wrap(
+                      spacing: 12,
+                      runSpacing: 12,
                       children: [
                         ElevatedButton(
                           onPressed: () {},
@@ -446,7 +469,22 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                             style: TextStyle(fontWeight: FontWeight.w700),
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        OutlinedButton.icon(
+                          onPressed: _showCvMessage,
+                          icon: const Icon(Icons.download_rounded, size: 19),
+                          label: const Text(
+                            'Pobierz CV',
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            side: const BorderSide(color: Color(0xFF8B5CF6)),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
+                          ),
+                        ),
                         OutlinedButton(
                           onPressed: () {},
                           style: OutlinedButton.styleFrom(
@@ -547,6 +585,15 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
             );
           },
         ),
+      ),
+    );
+  }
+
+  void _showCvMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Plik CV zostanie dodany wkrótce.'),
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }
@@ -714,6 +761,93 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                     icon: Icons.design_services_rounded,
                   ),
                 ),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTechnologiesSection() {
+    const technologies = [
+      _TechnologyData(
+        name: 'Flutter',
+        subtitle: 'Aplikacje mobilne i webowe',
+        icon: Icons.flutter_dash_rounded,
+        color: Color(0xFF22D3EE),
+      ),
+      _TechnologyData(
+        name: 'Dart',
+        subtitle: 'Logika i architektura aplikacji',
+        icon: Icons.code_rounded,
+        color: Color(0xFF60A5FA),
+      ),
+      _TechnologyData(
+        name: 'HTML & CSS',
+        subtitle: 'Nowoczesne strony internetowe',
+        icon: Icons.language_rounded,
+        color: Color(0xFFF97316),
+      ),
+      _TechnologyData(
+        name: 'Git & GitHub',
+        subtitle: 'Wersjonowanie i publikacja kodu',
+        icon: Icons.account_tree_rounded,
+        color: Color(0xFF34D399),
+      ),
+      _TechnologyData(
+        name: 'Figma',
+        subtitle: 'Projekty UI i prototypy',
+        icon: Icons.design_services_rounded,
+        color: Color(0xFFF472B6),
+      ),
+      _TechnologyData(
+        name: 'VS Code',
+        subtitle: 'Codzienne środowisko pracy',
+        icon: Icons.terminal_rounded,
+        color: Color(0xFF818CF8),
+      ),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Technologie',
+          style: TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          'Narzędzia, których używam do tworzenia funkcjonalnych i dopracowanych realizacji.',
+          style: TextStyle(
+            fontSize: 16,
+            color: Color(0xFFCBD5E1),
+            height: 1.6,
+          ),
+        ),
+        const SizedBox(height: 18),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final columns = constraints.maxWidth >= 900
+                ? 3
+                : constraints.maxWidth >= 580
+                    ? 2
+                    : 1;
+            final itemWidth = (constraints.maxWidth - (columns - 1) * 16) / columns;
+
+            return Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                for (final technology in technologies)
+                  SizedBox(
+                    width: itemWidth,
+                    child: _TechnologyCard(data: technology),
+                  ),
               ],
             );
           },
@@ -973,6 +1107,76 @@ class _InfoChip extends StatelessWidget {
           color: Color(0xFFE2E8F0),
           fontWeight: FontWeight.w600,
         ),
+      ),
+    );
+  }
+}
+
+class _TechnologyData {
+  final String name;
+  final String subtitle;
+  final IconData icon;
+  final Color color;
+
+  const _TechnologyData({
+    required this.name,
+    required this.subtitle,
+    required this.icon,
+    required this.color,
+  });
+}
+
+class _TechnologyCard extends StatelessWidget {
+  final _TechnologyData data;
+
+  const _TechnologyCard({required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: const Color(0xFF0F172A),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white.withOpacity(0.06)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              color: data.color.withOpacity(0.14),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Icon(data.icon, color: data.color, size: 27),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  data.name,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  data.subtitle,
+                  style: const TextStyle(
+                    color: Color(0xFF94A3B8),
+                    fontSize: 13,
+                    height: 1.35,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
