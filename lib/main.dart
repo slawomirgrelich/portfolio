@@ -71,15 +71,15 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isDesktop = constraints.maxWidth > 800;
-          final maxWidth = isDesktop ? 1000.0 : double.infinity;
+          final contentWidth = isDesktop ? 600.0 : constraints.maxWidth;
 
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 30),
             child: Center(
               child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: maxWidth),
-                child: _buildPageContent(),
+                constraints: BoxConstraints(maxWidth: contentWidth),
+                child: _buildMobileLayout(),
               ),
             ),
           );
@@ -88,7 +88,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
     );
   }
 
-  Widget _buildPageContent() {
+  Widget _buildMobileLayout() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
