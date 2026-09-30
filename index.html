@@ -51,7 +51,7 @@
         }
 
         .hero {
-            padding: 5rem 5%;
+            padding: 4rem 5% 5rem 5%;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -85,8 +85,40 @@
         p.hero-desc {
             font-size: 1.125rem;
             color: var(--text-muted);
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             max-width: 700px;
+        }
+
+        /* Styl odliczania */
+        .countdown-container {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .countdown-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .cta-form {
@@ -192,13 +224,33 @@
     </header>
 
     <section class="hero">
-        <div class="badge">🚀 Zamknięte testy i przedsprzedaż</div>
+        <div class="badge">🚀 Zamknięte testy i premiera</div>
         <h1>Twój osobisty asystent w prowadzeniu <span>perfekcyjnego akwarium</span></h1>
         <p class="hero-desc">Stworzona przez akwarystę dla pasjonatów. Kontroluj parametry wody, planuj podmiany, zarządzaj harmonogramem karmienia i miej pełną historię zbiornika w jednym miejscu.</p>
         
+        <!-- Odliczanie do 14 października -->
+        <div class="countdown-container" id="countdown">
+            <div class="countdown-box">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">Dni</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">Godzin</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">Minut</span>
+            </div>
+            <div class="countdown-box">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">Sekund</span>
+            </div>
+        </div>
+
         <form class="cta-form" onsubmit="event.preventDefault(); alert('Dzięki za zapis! Wkrótce damy znać.');">
             <input type="email" placeholder="Wpisz swój adres e-mail..." required>
-            <button type="submit">Dołącz / Zapisz się</button>
+            <button type="submit">Zapisz się na start</button>
         </form>
         <div class="platforms">Dostępna wkrótce na: <strong>Android (Google Play)</strong> oraz <strong>iOS</strong></div>
     </section>
@@ -225,5 +277,32 @@
         <p>&copy; 2026 Akwarysta PRO. Wszystkie prawa zastrzeżone.</p>
     </footer>
 
+    <script>
+        // Data docelowa: 14 października 2026, godzina 00:00:00
+        const targetDate = new Date("October 14, 2026 00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance < 0) {
+                document.getElementById("countdown").innerHTML = "<h3 style='color: var(--accent-green); width: 100%;'>🚀 Aplikacja jest już dostępna!</h3>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = String(days).padStart(2, '0');
+            document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+            document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
 </body>
 </html>
